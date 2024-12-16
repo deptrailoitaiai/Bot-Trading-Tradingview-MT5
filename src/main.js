@@ -9,12 +9,13 @@ const {
 const app = express();
 app.use(express.json());
 
+// setting *******************************************************************************************************
 let currentPositionId = null;
 let profitableStoplossDistance = 0;
 let isRunning = false;
 
-let stopLossSet = false;
 
+// handle signal *************************************************************************************************
 app.post("/", async (req, res) => {
   const { signal } = req.body;
   res.sendStatus(200);
@@ -29,11 +30,10 @@ app.post("/", async (req, res) => {
     isRunning = false;
     currentPositionId = null;
 
-    const openResponse = await openPosition(signal, 1, 2);
+    const openResponse = await openPosition(signal, 0, 0.2);
 
     if (openResponse.data.orderId) {
       currentPositionId = openResponse.data.orderId;
-      profitableStoplossDistance = 0;
       isRunning = true;
       console.log(
         `Opened new position ${currentPositionId} with initial stop-loss: -1`
@@ -46,6 +46,12 @@ app.post("/", async (req, res) => {
   }
 });
 
+app.listen(3000, () => {
+  console.log("Server running on http://localhost:3000");
+});
+
+
+// monitoring position ****************************************************************************************
 const monitorPosition = async () => {
   if (!isRunning) {
     setTimeout(monitorPosition, 1000);
@@ -77,9 +83,8 @@ const monitorPosition = async () => {
 
 monitorPosition();
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
-});
+
+// strategies ************************************************************************************************
 
 // default stop-loss = -1, profitable stop-loss moving < absolute price 1
 async function stopLossSetupStrategy1(positionData) {
@@ -108,8 +113,6 @@ async function stopLossSetupStrategy1(positionData) {
     );
   }
 }
-
-// strategies
 
 // default stop-loss = -1, profitable stop-loss moving = open price, hold until spell close by opposite position
 async function stopLossSetupStrategy2(positionData) {

@@ -12,7 +12,7 @@ const headers = {
 
 function openPositionBody(spell, sl, tp) {
   return {
-    symbol: "XAUUSDm",
+    symbol: "BTCUSDm",
     actionType: spell == "buy" ? "ORDER_TYPE_BUY" : "ORDER_TYPE_SELL",
     volume: 0.01,
     stopLoss: sl,
