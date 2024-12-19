@@ -14,6 +14,12 @@ let currentPositionId = null;
 let profitableStoplossDistance = 0;
 let isRunning = false;
 
+// test **********************************************************************************************************
+
+app.get("/"), (req, res) => {
+  res.send("Hello World");
+}
+
 
 // handle signal *************************************************************************************************
 app.post("/", async (req, res) => {
