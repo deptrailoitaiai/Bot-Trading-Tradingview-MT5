@@ -30,7 +30,7 @@ app.post("/", async (req, res) => {
     isRunning = false;
     currentPositionId = null;
 
-    const openResponse = await openPosition(signal, 0, 0.2);
+    const openResponse = await openPosition(signal, 0, 0.3);
 
     if (openResponse.data.orderId) {
       currentPositionId = openResponse.data.orderId;

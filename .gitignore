@@ -1,3 +1,5 @@
-src/constant.js
-
+.env
+package-lock.json
 node_modules
+note.doc
+.vercel
