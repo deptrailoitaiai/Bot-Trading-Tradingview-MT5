@@ -14,17 +14,15 @@ let currentPositionId = null;
 let profitableStoplossDistance = 0;
 let isRunning = false;
 
-// test **********************************************************************************************************
-
-app.get("/"), async (req, res) => {
-  res.send("Hello World");
-}
-
 
 // handle signal *************************************************************************************************
 app.post("/", async (req, res) => {
   const { signal } = req.body;
   res.sendStatus(200);
+
+  if(signal == "ping") {
+    return
+  }
 
   console.log(`signal from tradingview ${signal}`);
   try {

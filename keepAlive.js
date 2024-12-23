@@ -6,7 +6,7 @@ const SERVER_URL = "https://webhook-390k.onrender.com";
 // Hàm gửi request đến server
 async function pingServer() {
     try {
-        const response = await axios.get(SERVER_URL);
+        const response = await axios.post(SERVER_URL, {"signal": "ping"});
         console.log(`Pinged server successfully at ${new Date().toISOString()}:`, response.status);
     } catch (error) {
         console.error(`Error pinging server at ${new Date().toISOString()}:`, error.message);
