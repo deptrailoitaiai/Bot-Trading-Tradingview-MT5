@@ -21,6 +21,7 @@ app.post("/", async (req, res) => {
   res.sendStatus(200);
 
   if(signal == "ping") {
+    console.log("ping to keep server alive")
     return
   }
 
