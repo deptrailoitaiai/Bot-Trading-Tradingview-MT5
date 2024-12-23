@@ -9,4 +9,4 @@ function pingServer() {
 }
 
 
-setInterval(pingServer, 1000);
+setInterval(pingServer, 10 * 60 * 1000); 
