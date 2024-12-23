@@ -56,36 +56,36 @@ app.listen(3000, () => {
 
 
 // monitoring position ****************************************************************************************
-const monitorPosition = async () => {
-  if (!isRunning) {
-    setTimeout(monitorPosition, 1000);
-    return;
-  }
+// const monitorPosition = async () => {
+//   if (!isRunning) {
+//     setTimeout(monitorPosition, 1000);
+//     return;
+//   }
 
-  try {
-    const position = await getPosition(currentPositionId);
-    const currentProfit = position.data.profit;
+//   try {
+//     const position = await getPosition(currentPositionId);
+//     const currentProfit = position.data.profit;
 
-    console.log(
-      `spell ${position.data.id} (${position.data.type}) is running with current profit: ${currentProfit}`
-    );
+//     console.log(
+//       `spell ${position.data.id} (${position.data.type}) is running with current profit: ${currentProfit}`
+//     );
 
-    // stop-loss strategy
-    // await stopLossSetupStrategy4(position.data);
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      console.log(
-        `position not found, may close by stop-loss or by annother spell`
-      );
-    } else {
-      console.error("Error during monitoring:", error.message);
-    }
-  }
+//     // stop-loss strategy
+//     // await stopLossSetupStrategy4(position.data);
+//   } catch (error) {
+//     if (error.response && error.response.status === 404) {
+//       console.log(
+//         `position not found, may close by stop-loss or by annother spell`
+//       );
+//     } else {
+//       console.error("Error during monitoring:", error.message);
+//     }
+//   }
 
-  setTimeout(monitorPosition, 1000);
-};
+//   setTimeout(monitorPosition, 1000);
+// };
 
-monitorPosition();
+// monitorPosition();
 
 
 // strategies ************************************************************************************************
