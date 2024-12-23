@@ -14,16 +14,16 @@ let currentPositionId = null;
 let profitableStoplossDistance = 0;
 let isRunning = false;
 
+app.get("/", async (req, res) => {
+  console.log("ping to keep server alive");
+  return res.status(200)
+})
+
 
 // handle signal *************************************************************************************************
 app.post("/", async (req, res) => {
   const { signal } = req.body;
   res.sendStatus(200);
-
-  if(signal == "ping") {
-    console.log("ping to keep server alive")
-    return
-  }
 
   console.log(`signal from tradingview ${signal}`);
   try {
