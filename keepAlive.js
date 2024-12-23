@@ -5,7 +5,7 @@ const SERVER_URL = "https://webhook-390k.onrender.com";
 
 // Hàm gửi request đến server
 function pingServer() {
-    axios.post(SERVER_URL, {"signal": "ping"});
+    axios.get(SERVER_URL);
 }
 
 
