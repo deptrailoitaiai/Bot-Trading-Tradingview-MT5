@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 // URL của server trên Vercel
-const SERVER_URL = "https://webhook-390k.onrender.com"; 
+const SERVER_URL = "https://bot-trading-tradingview-mt5.onrender.com"; 
 
 // Hàm gửi request đến server
 function pingServer() {
@@ -9,4 +9,4 @@ function pingServer() {
 }
 
 
-setInterval(pingServer, 10 * 60 * 1000);
+setInterval(pingServer, 1000);
