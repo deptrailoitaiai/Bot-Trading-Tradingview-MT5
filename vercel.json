@@ -9,7 +9,12 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/"
+            "dest": "/main.js"
         }
-    ]
+    ],
+    "env": {
+        "API_KEY": "@api_key",
+        "MT5_URL_TRADE": "@mt5_url_trade",
+        "MT5_URL_POSITION": "@mt5_url_position"
+    }
 }
