@@ -15,8 +15,13 @@ let profitableStoplossDistance = 0;
 let isRunning = false;
 
 app.head("/", async (req, res) => {
-  console.log("ping to keep server alive");
-  return res.status(200)
+  console.log("head method ping to keep server alive");
+  return res.status(200).json({ message: "Server is running" })
+})
+
+app.get("/", async (req, res) => {
+  console.log("get method ping to keep server alive");
+  return res.status(200).json({ message: "Server is running" })
 })
 
 
