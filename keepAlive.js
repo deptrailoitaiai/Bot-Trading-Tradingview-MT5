@@ -14,4 +14,4 @@ async function pingServer() {
 }
 
 
-setInterval(pingServer, 14 * 60 * 1000);
+setInterval(pingServer, 3000); // Ping server every 10 minutes
