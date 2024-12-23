@@ -13,8 +13,8 @@
         }
     ],
     "env": {
-        "API_KEY": "@api_key",
-        "MT5_URL_TRADE": "@mt5_url_trade",
-        "MT5_URL_POSITION": "@mt5_url_position"
+        "API_KEY": "@API_KEY",
+        "MT5_URL_TRADE": "@MT5_URL_TRADE",
+        "MT5_URL_POSITION": "@MT5_URL_POSITION"
     }
 }
