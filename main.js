@@ -14,7 +14,7 @@ let currentPositionId = null;
 let profitableStoplossDistance = 0;
 let isRunning = false;
 
-app.get("/", async (req, res) => {
+app.head("/", async (req, res) => {
   console.log("ping to keep server alive");
   return res.status(200)
 })
