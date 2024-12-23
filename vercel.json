@@ -1,20 +1,15 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "./main.js",
-            "use": "@vercel/node"
-        }
+      {
+        "src": "./main.js",
+        "use": "@vercel/node"
+      }
     ],
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/main.js"
-        }
-    ],
-    "env": {
-        "API_KEY": "@API_KEY",
-        "MT5_URL_TRADE": "@MT5_URL_TRADE",
-        "MT5_URL_POSITION": "@MT5_URL_POSITION"
-    }
-}
+      {
+        "src": "/(.*)",
+        "dest": "/main.js"
+      }
+    ]
+  }
