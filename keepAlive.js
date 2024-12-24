@@ -8,4 +8,4 @@ function keepAlive() {
     }) 
 }
 
-setInterval(keepAlive, 3000);
+setInterval(keepAlive, 10 * 60 * 1000);
