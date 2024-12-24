@@ -14,6 +14,7 @@ let currentPositionId = null;
 let profitableStoplossDistance = 0;
 let isRunning = false;
 
+// monitoring ****************************************************************************************************
 app.head("/", async (req, res) => {
   console.log("head method ping to keep server alive");
   return res.status(200).json({ message: "Server is running" })
@@ -29,6 +30,11 @@ app.get("/", async (req, res) => {
 app.post("/", async (req, res) => {
   const { signal } = req.body;
   res.sendStatus(200);
+
+  if(signal == "ping") {
+    console.log("method post: Server is running")
+    return "method post: Server is running"
+  }
 
   console.log(`signal from tradingview ${signal}`);
   try {
@@ -60,6 +66,7 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(3000, () => {
   console.log("Server running on http://localhost:3000");
+  require("./keepAlive");
 });
 
 
