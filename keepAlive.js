@@ -1,7 +1,11 @@
 const axios = require("axios");
 
 function keepAlive() {
-    axios.post("https://bot-trading-tradingview-mt5.onrender.com", { signal: "ping" })
+    try {
+        axios.post("https://bot-trading-tradingview-mt5.onrender.com", { signal: "ping" })
+    } catch (error) {
+        console.log("method post not responding");
+    }
 }
 
 setInterval(keepAlive, 3000);
