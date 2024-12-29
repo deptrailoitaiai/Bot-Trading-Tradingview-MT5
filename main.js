@@ -13,15 +13,16 @@ app.use(express.json());
 let currentPositionId = null;
 let profitableStoplossDistance = 0;
 let isRunning = false;
+let currentTP = 1;
 
 const START_HOUR_SESSION1 = 8;
-const END_HOUR_SESSION1 = 11;
+const END_HOUR_SESSION1 = 10; //10h59
 
 const START_HOUR_SESSION2 = 12;
-const END_HOUR_SESSION2 = 15;
+const END_HOUR_SESSION2 = 17; //17h59
 
-const START_HOUR_SESSION3 = 16;
-const END_HOUR_SESSION3 = 1;
+const START_HOUR_SESSION3 = 19;
+const END_HOUR_SESSION3 = 23; //23h59
 
 // monitoring ****************************************************************************************************
 app.head("/", async (req, res) => {
@@ -45,37 +46,39 @@ app.post("/", async (req, res) => {
     return "method post: Server is running"
   }
 
-  // const currentHour = new Date().getHours() + 7;
-  // const localHour = currentHour >= 24 ? currentHour - 24 : currentHour;
+  const currentHour = new Date().getHours() + 7;
+  const localHour = currentHour >= 24 ? currentHour - 24 : currentHour;
 
-  // if
-  // (
-  //   !(
-  //     (localHour >= START_HOUR_SESSION1 && localHour <= END_HOUR_SESSION1) ||
-  //     (localHour >= START_HOUR_SESSION2 && localHour <= END_HOUR_SESSION2) ||
-  //     (localHour >= START_HOUR_SESSION3 && localHour <= END_HOUR_SESSION3)
-  //   )  
-  // ) {
-  //   return "request for trade not available this time"
-  // }
+  if
+  (
+    !(
+      (localHour >= START_HOUR_SESSION1 && localHour <= END_HOUR_SESSION1) ||
+      (localHour >= START_HOUR_SESSION2 && localHour <= END_HOUR_SESSION2) ||
+      (localHour >= START_HOUR_SESSION3 && localHour <= END_HOUR_SESSION3)
+    )  
+  ) {
+    return "request for trade not available this time"
+  }
 
   console.log(`signal from tradingview ${signal}`);
   try {
     if (currentPositionId) {
       await closePosition(currentPositionId);
       console.log(`Closed position ${currentPositionId}`);
+      currentTP + 0.5;
     }
 
     isRunning = false;
     currentPositionId = null;
 
-    const openResponse = await openPosition(signal, 0, 1);
+    const openResponse = await openPosition(signal, 0, currentTP);
+    currentTP = 1;
 
     if (openResponse.data.orderId) {
       currentPositionId = openResponse.data.orderId;
       isRunning = true;
       console.log(
-        `Opened new position ${currentPositionId} with initial stop-loss: -1`
+        `Opened new position ${currentPositionId}`
       );
     } else {
       console.error("Failed to open a new position");
