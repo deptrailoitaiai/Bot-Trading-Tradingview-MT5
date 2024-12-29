@@ -14,6 +14,15 @@ let currentPositionId = null;
 let profitableStoplossDistance = 0;
 let isRunning = false;
 
+const START_HOUR_SESSION1 = 8;
+const END_HOUR_SESSION1 = 11;
+
+const START_HOUR_SESSION2 = 12;
+const END_HOUR_SESSION2 = 15;
+
+const START_HOUR_SESSION3 = 16;
+const END_HOUR_SESSION3 = 1;
+
 // monitoring ****************************************************************************************************
 app.head("/", async (req, res) => {
   console.log("head method ping to keep server alive");
@@ -36,6 +45,20 @@ app.post("/", async (req, res) => {
     return "method post: Server is running"
   }
 
+  // const currentHour = new Date().getHours() + 7;
+  // const localHour = currentHour >= 24 ? currentHour - 24 : currentHour;
+
+  // if
+  // (
+  //   !(
+  //     (localHour >= START_HOUR_SESSION1 && localHour <= END_HOUR_SESSION1) ||
+  //     (localHour >= START_HOUR_SESSION2 && localHour <= END_HOUR_SESSION2) ||
+  //     (localHour >= START_HOUR_SESSION3 && localHour <= END_HOUR_SESSION3)
+  //   )  
+  // ) {
+  //   return "request for trade not available this time"
+  // }
+
   console.log(`signal from tradingview ${signal}`);
   try {
     if (currentPositionId) {
@@ -46,7 +69,7 @@ app.post("/", async (req, res) => {
     isRunning = false;
     currentPositionId = null;
 
-    const openResponse = await openPosition(signal, 0, 0.5);
+    const openResponse = await openPosition(signal, 0, 0.2);
 
     if (openResponse.data.orderId) {
       currentPositionId = openResponse.data.orderId;
