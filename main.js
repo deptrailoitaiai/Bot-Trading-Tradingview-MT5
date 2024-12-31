@@ -13,7 +13,7 @@ app.use(express.json());
 let currentPositionId = null;
 let profitableStoplossDistance = 0;
 let isRunning = false;
-let currentTP = 1;
+const takeProfit = 1;
 
 const START_HOUR_SESSION1 = 8;
 const END_HOUR_SESSION1 = 10; //10h59
@@ -38,6 +38,7 @@ app.get("/", async (req, res) => {
 
 // handle signal *************************************************************************************************
 app.post("/", async (req, res) => {
+  let currentTp = takeProfit
   const { signal } = req.body;
   res.sendStatus(200);
 
@@ -65,14 +66,14 @@ app.post("/", async (req, res) => {
     if (currentPositionId) {
       await closePosition(currentPositionId);
       console.log(`Closed position ${currentPositionId}`);
-      currentTP += 0.5;
+      currentTp + 0.5;
+      console.log("tp moved to 1.5 in next trade after hit sl")
     }
 
     isRunning = false;
     currentPositionId = null;
 
-    const openResponse = await openPosition(signal, 0, currentTP);
-    currentTP = 1;
+    const openResponse = await openPosition(signal, 0, currentTp);
 
     if (openResponse.data.orderId) {
       currentPositionId = openResponse.data.orderId;
