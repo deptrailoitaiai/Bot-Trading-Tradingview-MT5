@@ -50,30 +50,28 @@ app.post("/", async (req, res) => {
   const currentHour = new Date().getHours() + 7;
   const localHour = currentHour >= 24 ? currentHour - 24 : currentHour;
 
-  if
-  (
-    !(
-      (localHour >= START_HOUR_SESSION1 && localHour <= END_HOUR_SESSION1) ||
-      (localHour >= START_HOUR_SESSION2 && localHour <= END_HOUR_SESSION2) ||
-      (localHour >= START_HOUR_SESSION3 && localHour <= END_HOUR_SESSION3)
-    )  
-  ) {
-    return "request for trade not available this time"
-  }
-
   console.log(`signal from tradingview ${signal}`);
   try {
     if (currentPositionId) {
       await closePosition(currentPositionId);
       console.log(`Closed position ${currentPositionId}`);
-      currentTp += 0.5;
-      console.log("tp moved to 1.5 in next trade after hit sl")
     }
 
     isRunning = false;
     currentPositionId = null;
 
-    const openResponse = await openPosition(signal, 0, currentTp);
+    if
+    (
+      !(
+        (localHour >= START_HOUR_SESSION1 && localHour <= END_HOUR_SESSION1) ||
+        (localHour >= START_HOUR_SESSION2 && localHour <= END_HOUR_SESSION2) ||
+        (localHour >= START_HOUR_SESSION3 && localHour <= END_HOUR_SESSION3)
+      )  
+    ) {
+      return "request for trade not available this time"
+    }
+
+    const openResponse = await openPosition(signal, 0, 1);
 
     if (openResponse.data.orderId) {
       currentPositionId = openResponse.data.orderId;
