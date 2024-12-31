@@ -65,7 +65,7 @@ app.post("/", async (req, res) => {
     if (currentPositionId) {
       await closePosition(currentPositionId);
       console.log(`Closed position ${currentPositionId}`);
-      currentTP + 0.5;
+      currentTP += 0.5;
     }
 
     isRunning = false;
