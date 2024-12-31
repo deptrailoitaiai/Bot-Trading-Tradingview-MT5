@@ -66,7 +66,7 @@ app.post("/", async (req, res) => {
     if (currentPositionId) {
       await closePosition(currentPositionId);
       console.log(`Closed position ${currentPositionId}`);
-      currentTp + 0.5;
+      currentTp += 0.5;
       console.log("tp moved to 1.5 in next trade after hit sl")
     }
 
