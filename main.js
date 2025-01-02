@@ -15,14 +15,14 @@ let profitableStoplossDistance = 0;
 let isRunning = false;
 const takeProfit = 1;
 
-const START_HOUR_SESSION1 = 8;
-const END_HOUR_SESSION1 = 10; //10h59
+const START_HOUR_SESSION1 = 0;
+const END_HOUR_SESSION1 = 1; 
 
 const START_HOUR_SESSION2 = 12;
-const END_HOUR_SESSION2 = 17; //17h59
+const END_HOUR_SESSION2 = 17;
 
 const START_HOUR_SESSION3 = 19;
-const END_HOUR_SESSION3 = 23; //23h59
+const END_HOUR_SESSION3 = 23; 
 
 // monitoring ****************************************************************************************************
 app.head("/", async (req, res) => {
