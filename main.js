@@ -18,7 +18,7 @@ const takeProfit = 1;
 const START_HOUR_SESSION1 = 0;
 const END_HOUR_SESSION1 = 1; 
 
-const START_HOUR_SESSION2 = 12;
+const START_HOUR_SESSION2 = 13;
 const END_HOUR_SESSION2 = 17;
 
 const START_HOUR_SESSION3 = 19;
