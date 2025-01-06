@@ -96,7 +96,7 @@ app.post("/", async (req, res) => {
     console.error("Error during position handling:", error);
   }
 
-  console.endTime("request-time")
+  console.timeEnd("request-time")
 });
 
 const PORT = process.env.PORT || 3000;
