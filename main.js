@@ -16,10 +16,10 @@ let isRunning = false;
 const takeProfit = 1;
 
 const START_HOUR_SESSION1 = 0;
-const END_HOUR_SESSION1 = 1; 
+const END_HOUR_SESSION1 = 0; 
 
 const START_HOUR_SESSION2 = 13;
-const END_HOUR_SESSION2 = 17;
+const END_HOUR_SESSION2 = 16;
 
 const START_HOUR_SESSION3 = 19;
 const END_HOUR_SESSION3 = 23; 
@@ -47,6 +47,8 @@ app.post("/", async (req, res) => {
     return "method post: Server is running"
   }
 
+  console.time("request-time")
+  
   const currentHour = new Date().getHours() + 7;
   const localHour = currentHour >= 24 ? currentHour - 24 : currentHour;
 
@@ -93,6 +95,8 @@ app.post("/", async (req, res) => {
   } catch (error) {
     console.error("Error during position handling:", error);
   }
+
+  console.endTime("request-time")
 });
 
 const PORT = process.env.PORT || 3000;
