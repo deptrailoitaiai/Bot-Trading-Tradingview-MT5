@@ -81,7 +81,7 @@ app.post("/", async (req, res) => {
       return "request for trade not available this time"
     }
 
-    const openResponse = await openPosition(signal, 0, currentTp);
+    const openResponse = await openPosition(signal, 2.5, currentTp);
     
     if (openResponse.data.orderId) {
       currentPositionId = openResponse.data.orderId;
