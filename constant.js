@@ -15,7 +15,7 @@ const constants = {
       START_HOUR_SESSION3: 19,
       END_HOUR_SESSION3: 23, 
     },
-    TakeProfit: 1,
+    TakeProfit: 1.5,
     TakeProfitAfterStopLoss: 1.5,
   },
   account2: {
