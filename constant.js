@@ -24,8 +24,8 @@ const constants = {
       MT5_URL_TRADE: process.env.MT5_URL_TRADE_2,
       MT5_URL_POSITION: process.env.MT5_URL_POSITION_2,
     },
-    TakeProfit: 1,
-    TakeProfitAfterStopLoss: 1.5,
+    TakeProfit: 3,
+    TakeProfitAfterStopLoss: 3,
   }
 }
 
