@@ -1,18 +1,16 @@
-const { API_KEY, MT5_URL_TRADE, MT5_URL_POSITION } = require("./constant");
 const axios = require("axios");
 
-const apiKey = API_KEY;
-const MT5_URL = MT5_URL_TRADE;
-
-const headers = {
-  "Content-Type": "application/json",
-  Accept: "application/json",
-  "auth-token": apiKey,
+const headers = (apiKey) => {
+  return {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    "auth-token": apiKey,
+  };
 };
 
-function openPositionBody(spell, sl, tp) {
+function openPositionBody(spell, sl, tp, symbol) {
   return {
-    symbol: "XAUUSDm",
+    symbol: symbol,
     actionType: spell == "buy" ? "ORDER_TYPE_BUY" : "ORDER_TYPE_SELL",
     volume: 0.01,
     stopLoss: sl,
@@ -20,7 +18,7 @@ function openPositionBody(spell, sl, tp) {
     stopLossUnits: "RELATIVE_CURRENCY",
     takeProfitUnits: "RELATIVE_CURRENCY",
   };
-}0
+}
 
 function closePositionBody(positionId) {
   return {
@@ -47,44 +45,33 @@ function modifyTakeprofitBody(positionId, takeprofit) {
   };
 }
 
-async function openPosition(spell, sl, tp) {
-  const response = await axios.post(MT5_URL, openPositionBody(spell, sl, tp), {
-    headers: headers,
-  });
-  console.log(response.data);
-  return response;
-}
-
-async function closePosition(positionId) {
-  const response = await axios.post(MT5_URL, closePositionBody(positionId), {
-    headers: headers,
-  });
-  return response;
-}
-
-async function getPosition(positionId) {
-  const response = await axios.get(MT5_URL_POSITION(positionId), {
-    headers: headers,
-  });
-  return response;
-}
-
-async function modifyStoploss(positionId, stoploss) {
+async function openPosition(symbol, spell, sl, tp, MT5_URL_TRADE, apiKey) {
   const response = await axios.post(
-    MT5_URL,
-    modifyStoplossBody(positionId, stoploss),
-    { headers: headers }
+    MT5_URL_TRADE,
+    openPositionBody(spell, sl, tp, symbol),
+    {
+      headers: headers(apiKey),
+    }
+  );
+  // console.log(response.data);
+  return response;
+}
+
+async function closePosition(positionId, MT5_URL_TRADE, apiKey) {
+  const response = await axios.post(
+    MT5_URL_TRADE,
+    closePositionBody(positionId),
+    {
+      headers: headers(apiKey),
+    }
   );
   return response;
 }
 
-async function modifyTakeprofit(positionId, takeprofit) {
-  const response = await axios.post(
-    MT5_URL,
-    modifyTakeprofitBody(positionId, takeprofit),
-    { headers: headers }
-  )
-
+async function getPosition(positionId, MT5_URL_POSITION, apiKey) {
+  const response = await axios.get(`${MT5_URL_POSITION}/${positionId}`, {
+    headers: headers(apiKey),
+  });
   return response;
 }
 
@@ -92,6 +79,4 @@ module.exports = {
   openPosition,
   closePosition,
   getPosition,
-  modifyStoploss,
-  modifyTakeprofit,
 };
