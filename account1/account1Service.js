@@ -16,6 +16,7 @@ const END_HOUR_SESSION3 = constants.account1.TradeTime.END_HOUR_SESSION3;
 
 const account1Service = async (signal) => {
   const numericCode = await close(currentPositionId);
+  console.log("---", numericCode, "---")
 
   const verifyTradeTime = checkTradeTime();
   if (!verifyTradeTime) return "Out of time for trade";
@@ -49,7 +50,7 @@ const checkTradeTime = () => {
 };
 
 const open = async (signal, TP) => {
-  const position = await openPosition("XAUUSDm" ,signal, 3, TP, MT5_URL_TRADE, API_KEY);
+  const position = await openPosition("XAUUSDm" ,signal, 0, TP, MT5_URL_TRADE, API_KEY);
   if (position.data.orderId) console.log("opened new position");
   return position.data.orderId;
 };
