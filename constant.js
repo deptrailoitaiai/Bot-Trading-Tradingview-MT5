@@ -16,7 +16,7 @@ const constants = {
       END_HOUR_SESSION3: 23, 
     },
     TakeProfit: 1.5,
-    TakeProfitAfterStopLoss: 1.5,
+    TakeProfitAfterStopLoss: 2,
   },
   account2: {
     API_Config: {
