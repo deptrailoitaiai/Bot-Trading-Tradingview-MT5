@@ -13,7 +13,7 @@ app.use(express.json());
 let currentPositionId = null;
 let profitableStoplossDistance = 0;
 let isRunning = false;
-const takeProfit = 1;
+const takeProfit = 2;
 
 const START_HOUR_SESSION1 = 0;
 const END_HOUR_SESSION1 = 0; 
@@ -58,7 +58,7 @@ app.post("/", async (req, res) => {
 
       try {
         await getPosition(currentPositionId);
-        currentTp += 0.5;
+        //currentTp += 0.5;
       } catch (error) {
         // do nothing
       }
