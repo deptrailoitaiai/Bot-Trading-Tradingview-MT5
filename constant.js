@@ -11,7 +11,7 @@ const constants = {
       START_HOUR_SESSION1: 0,
       END_HOUR_SESSION1: 1, 
       START_HOUR_SESSION2: 13,
-      END_HOUR_SESSION2: 17,
+      END_HOUR_SESSION2: 16,
       START_HOUR_SESSION3: 19,
       END_HOUR_SESSION3: 23, 
     },
