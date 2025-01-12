@@ -16,27 +16,41 @@ const END_HOUR_SESSION3 = constants.account1.TradeTime.END_HOUR_SESSION3;
 
 const account1Service = async (signal) => {
   const numericCode = await close(currentPositionId);
-  console.log("---", numericCode, "---")
+  console.log(
+      numericCode === 4753 ?
+          `phase-2: close position by TP - numeric code: ${numericCode}` :
+          `phase-2: close position by another position - numeric code: ${numericCode}`
+  );
 
   const verifyTradeTime = checkTradeTime();
-  if (!verifyTradeTime) return "Out of time for trade";
-  const id = await open(signal, numericCode == 4753 ? TP : TP_AFTER_SL);
+  if (!verifyTradeTime) {
+    console.log(`phase-3: verify trade time: ${false}`);
+    console.log('transaction rolled-back')
+    return "Out of time for trade";
+  }
+  console.log(`phase-3: verify trade time: ${true}`);
+
+  const id = await open(signal, numericCode === 4753 ? TP : TP_AFTER_SL);
   currentPositionId = id;
+
+  console.log(`phase-4: open new position: ${true}`);
+  console.log('transaction committed');
+
 };
 
 const close = async (positionId) => {
   try {
     const closeTrade = await closePosition(positionId, MT5_URL_TRADE, API_KEY);
+    console.log(`phase-2: close position: ${true}`);
     return closeTrade.data.numericCode;
   } catch (error) {
-    console.log("closed by tp")
+    console.log(`phase-2: close position: ${true}`);
   }
 };
 
 const checkTradeTime = () => {
-  const currentHour = new Date().getHours() + 7;
-  const localHour = currentHour >= 24 ? currentHour - 24 : currentHour;
-
+  const utcHour = new Date().getUTCHours()
+  const localHour = (utcHour + 7) % 24;
   if (
     !(
       (localHour >= START_HOUR_SESSION1 && localHour <= END_HOUR_SESSION1) ||
@@ -50,7 +64,7 @@ const checkTradeTime = () => {
 };
 
 const open = async (signal, TP) => {
-  const position = await openPosition("XAUUSDm" ,signal, 0, TP, MT5_URL_TRADE, API_KEY);
+  const position = await openPosition("BTCUSDm" ,signal, 0, TP, MT5_URL_TRADE, API_KEY);
   if (position.data.orderId) console.log("opened new position");
   return position.data.orderId;
 };
@@ -77,4 +91,5 @@ module.exports = { account1Service };
 "numericCode": 10009,
 "numericCode": 4753,
 
+{"signal": "sell"}
 */

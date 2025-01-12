@@ -1,5 +1,5 @@
 .env
 package-lock.json
 node_modules
-note.doc
+note.md
 .vercel

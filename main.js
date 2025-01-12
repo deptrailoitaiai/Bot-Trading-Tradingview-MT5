@@ -1,6 +1,7 @@
 const express = require("express");
 const account1Controller = require('./account1/account1Controller');
 const account2Controller = require('./account2/account2Controller');
+require("./gmailService/emailMonitor");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -25,7 +26,7 @@ app.post("/", async (req, res) => {
 
 // handle signal *************************************************************************************************
 
-app.use('/account1', account1Controller);
+// app.use('/account1', account1Controller);
 app.use('/account2', account2Controller);
 
 
