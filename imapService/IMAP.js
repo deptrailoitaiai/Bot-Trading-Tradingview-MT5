@@ -4,10 +4,10 @@ const { constants } = require('../constant');
 const { account1Service } = require("../account1/account1Service");
 
 const imapConfig = {
-    user: constants.emailGetSignal.email,
-    password: constants.emailGetSignal.password,
-    host: constants.emailGetSignal.IMAP_host,
-    port: constants.emailGetSignal.IMAP_port,
+    user: constants.IMAP_Config.email,
+    password: constants.IMAP_Config.password,
+    host: constants.IMAP_Config.IMAP_host,
+    port: constants.IMAP_Config.IMAP_port,
     tls: true,
     tlsOptions: {
         rejectUnauthorized: false

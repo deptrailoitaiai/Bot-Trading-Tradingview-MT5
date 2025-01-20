@@ -27,11 +27,15 @@ const constants = {
     TakeProfit: 3,
     TakeProfitAfterStopLoss: 3,
   },
-  emailGetSignal: {
+  IMAP_Config: {
     email: process.env.EMAIL,
     password: process.env.GOOGLE_APP_PASSWORD,
     IMAP_host: process.env.IMAP_HOST,
     IMAP_port: process.env.IMAP_PORT
+  },
+  GoogleCloud_Config: {
+    Subscription_Name: process.env.SUBSCRIPTION_NAME,
+    Topic_Name: process.env.TOPIC_NAME,
   }
 }
 
