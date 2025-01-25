@@ -78,3 +78,4 @@ imap.once('end', function () {
 });
 
 imap.connect();
+console.log("connected to IMAP server");
