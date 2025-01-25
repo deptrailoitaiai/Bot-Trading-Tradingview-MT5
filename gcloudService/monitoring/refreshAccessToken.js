@@ -66,4 +66,5 @@ async function refresh() {
     setTimeout(refresh, 50 * 60 * 1000);
 }
 
-setTimeout(refresh, 30 * 1000);
+// setTimeout(refresh().catch, 30 * 1000);
+refresh().catch(console.error);

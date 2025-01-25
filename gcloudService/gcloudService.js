@@ -17,6 +17,8 @@ async function handlerSignal() {
     const gmail = google.gmail({ version: 'v1', auth });
 
     try {
+
+
         const res = await gmail.users.messages.list({
             userId: 'me',
             labelIds: ["Label_7408072646925256615"],
@@ -31,10 +33,10 @@ async function handlerSignal() {
 
         const messageId = messages[0].id;
 
-        if (messageId === lastMessageId) {
-            console.log(`Duplicate message: ${messageId}, skipping...`);
-            return;
-        }
+        // if (messageId === lastMessageId) {
+        //     console.log(`Duplicate message: ${messageId}, skipping...`);
+        //     return;
+        // }
 
         const emailRes = await gmail.users.messages.get({
             userId: 'me',
@@ -44,6 +46,8 @@ async function handlerSignal() {
         const email = emailRes.data;
         const emailBody = getBody(email.payload).toString();
 
+        console.log(typeof(emailBody))
+        console.log(emailBody === "sell" || emailBody === "buy")
         if(emailBody === "sell" || emailBody === "buy") {
             console.log(`New email ID: ${messageId}`);
             console.log(`Email Body: ${emailBody}`);

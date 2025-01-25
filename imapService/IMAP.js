@@ -17,7 +17,7 @@ const imapConfig = {
 const imap = new Imap(imapConfig);
 
 function openInbox(cb) {
-    imap.openBox('INBOX', true, cb);
+    imap.openBox('noti_from_tv', true, cb);
 }
 
 function isValidJSON(body) {
