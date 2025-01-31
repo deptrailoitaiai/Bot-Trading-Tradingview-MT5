@@ -14,68 +14,89 @@ const imapConfig = {
     }
 };
 
-const imap = new Imap(imapConfig);
+let imap;
 
-function openInbox(cb) {
-    imap.openBox('noti_from_tv', true, cb);
-}
+function initializeImap() {
+    imap = new Imap(imapConfig);
 
-function isValidJSON(body) {
-    try {
-        const parsedJSON = JSON.parse(body);
-        return { isValid: true, body: parsedJSON };
-    } catch (e) {
-        return { isValid: false, body: false };
+    function openInbox(cb) {
+        imap.openBox('noti_from_tv', true, cb);
     }
-}
 
-imap.once('ready', function () {
-    openInbox(function (err, box) {
-        if (err) throw err;
+    function isValidJSON(body) {
+        try {
+            const parsedJSON = JSON.parse(body);
+            return { isValid: true, body: parsedJSON };
+        } catch (e) {
+            return { isValid: false, body: false };
+        }
+    }
 
-        imap.on('mail', function () {
-            const fetch = imap.seq.fetch(box.messages.total + ':*', { bodies: '' });
+    imap.once('ready', function () {
+        openInbox(function (err, box) {
+            if (err) throw err;
 
-            fetch.on('message', function (msg, seqno) {
-                msg.on('body', async function (stream, info) {
-                    try {
-                        console.log("-----------------------------------------------");
-                        console.log("started new transaction");
+            // Gửi lệnh NOOP để duy trì kết nối
+            setInterval(() => {
+                console.log("Sending NOOP to keep connection alive...");
+                imap.noop();
+            }, 10 * 60 * 1000); // Gửi lệnh NOOP mỗi 10 phút
 
-                        const parsed = await simpleParser(stream);
+            imap.on('mail', function () {
+                const fetch = imap.seq.fetch(box.messages.total + ':*', { bodies: '' });
 
-                        const emailBody = parsed.text || parsed.html;
+                fetch.on('message', function (msg, seqno) {
+                    msg.on('body', async function (stream, info) {
+                        try {
+                            console.log("-----------------------------------------------");
+                            console.log("started new transaction");
 
-                        const verifyAndGetSignal = isValidJSON(emailBody);
-                        if (verifyAndGetSignal.isValid) {
-                            console.log(`phase-1: verify JSON: ${true}`);
-                            const signalFromEmail = verifyAndGetSignal.body.signal;
-                            console.log(`phase-1: signal: ${signalFromEmail}`);
+                            const parsed = await simpleParser(stream);
 
-                            await account1Service(signalFromEmail);
-                        } else {
-                            console.log(`phase-1: verify JSON: ${false}`);
-                            console.log('transaction rolled-back');
+                            const emailBody = parsed.text || parsed.html;
+
+                            const verifyAndGetSignal = isValidJSON(emailBody);
+                            if (verifyAndGetSignal.isValid) {
+                                console.log(`phase-1: verify JSON: ${true}`);
+                                const signalFromEmail = verifyAndGetSignal.body.signal;
+                                console.log(`phase-1: signal: ${signalFromEmail}`);
+
+                                await account1Service(signalFromEmail);
+                            } else {
+                                console.log(`phase-1: verify JSON: ${false}`);
+                                console.log('transaction rolled-back');
+                            }
+                        } catch (err) {
+                            console.error('Error processing email:', err);
                         }
-                    } catch (err) {
-                        console.error('Error processing email:', err);
-                    }
+                    });
                 });
-            });
 
-            fetch.once('end', function () {
+                fetch.once('end', function () { });
             });
         });
     });
-});
 
-imap.once('error', function (err) {
-    console.log(err);
-});
+    imap.once('error', function (err) {
+        console.error('IMAP Error:', err);
+        reconnectImap(); // Kết nối lại nếu gặp lỗi
+    });
 
-imap.once('end', function () {
-    console.log('end.');
-});
+    imap.once('end', function () {
+        console.log('IMAP connection ended. Reconnecting...');
+        reconnectImap(); // Kết nối lại khi bị ngắt
+    });
 
-imap.connect();
-console.log("connected to IMAP server");
+    imap.connect();
+    console.log("Connected to IMAP server");
+}
+
+function reconnectImap() {
+    setTimeout(() => {
+        console.log("Reconnecting to IMAP server...");
+        initializeImap();
+    }, 5000); // Thử lại sau 5 giây
+}
+
+// Khởi động kết nối lần đầu
+initializeImap();
