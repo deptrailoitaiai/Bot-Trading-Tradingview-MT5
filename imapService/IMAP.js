@@ -36,11 +36,15 @@ function initializeImap() {
         openInbox(function (err, box) {
             if (err) throw err;
 
-            // Gửi lệnh NOOP để duy trì kết nối
+            // Giữ kết nối bằng cách gửi lệnh IDLE hoặc STATUS
             setInterval(() => {
-                console.log("Sending NOOP to keep connection alive...");
-                imap.noop();
-            }, 10 * 60 * 1000); // Gửi lệnh NOOP mỗi 10 phút
+                if (imap.state === 'authenticated') {
+                    console.log("Checking mailbox status to keep connection alive...");
+                    imap.status('INBOX', (err, mailbox) => {
+                        if (err) console.error("Error keeping IMAP connection alive:", err);
+                    });
+                }
+            }, 10 * 60 * 1000); // Mỗi 10 phút
 
             imap.on('mail', function () {
                 const fetch = imap.seq.fetch(box.messages.total + ':*', { bodies: '' });
@@ -79,12 +83,12 @@ function initializeImap() {
 
     imap.once('error', function (err) {
         console.error('IMAP Error:', err);
-        reconnectImap(); // Kết nối lại nếu gặp lỗi
+        reconnectImap();
     });
 
     imap.once('end', function () {
         console.log('IMAP connection ended. Reconnecting...');
-        reconnectImap(); // Kết nối lại khi bị ngắt
+        reconnectImap();
     });
 
     imap.connect();
@@ -95,8 +99,8 @@ function reconnectImap() {
     setTimeout(() => {
         console.log("Reconnecting to IMAP server...");
         initializeImap();
-    }, 5000); // Thử lại sau 5 giây
+    }, 5000);
 }
 
-// Khởi động kết nối lần đầu
+// Khởi động kết nối IMAP
 initializeImap();
