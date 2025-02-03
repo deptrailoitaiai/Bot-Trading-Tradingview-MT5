@@ -53,6 +53,7 @@ function initializeImap() {
                     msg.on('body', async function (stream, info) {
                         try {
                             console.log("-----------------------------------------------");
+                            console.log(((new Date().getUTCHours()) + 7) % 24)
                             console.log("started new transaction");
 
                             const parsed = await simpleParser(stream);
@@ -76,7 +77,7 @@ function initializeImap() {
                     });
                 });
 
-                fetch.once('end', function () { });
+                fetch.once('end', function () {});
             });
         });
     });

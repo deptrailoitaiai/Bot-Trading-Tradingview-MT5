@@ -16,17 +16,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // monitoring ****************************************************************************************************
 app.head("/", async (req, res) => {
-  console.log("head method ping to keep server alive");
   return res.status(200).json({ message: "Server is running" })
 })
 
 app.get("/", async (req, res) => {
-  console.log("get method ping to keep server alive");
   return res.status(200).json({ message: "Server is running" })
 })
 
 app.post("/", async (req, res) => {
-  console.log("post method post to keep server alive");
   return res.status(200).json({ message: "Server is running" })
 });
 
