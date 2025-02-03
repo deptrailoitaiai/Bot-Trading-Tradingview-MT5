@@ -58,7 +58,7 @@ const checkTradeTime = () => {
       (localHour >= START_HOUR_SESSION3 && localHour <= END_HOUR_SESSION3)
     )
   ) {
-    return true;
+    return false;
   }
   return true;
 };
