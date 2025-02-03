@@ -9,7 +9,7 @@ const constants = {
     },
     TradeTime: {
       START_HOUR_SESSION1: 0,
-      END_HOUR_SESSION1: 1, 
+      END_HOUR_SESSION1: 0, 
       START_HOUR_SESSION2: 13,
       END_HOUR_SESSION2: 16,
       START_HOUR_SESSION3: 19,
